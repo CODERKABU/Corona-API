@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="d1">Gathering Data...</div>
+  </body>
+
+  <script>
+    function disp() {
+      const obj = new XMLHttpRequest();
+
+      obj.onload = function () {
+        x = document.getElementById("d1");
+
+        const jobj = JSON.parse(this.responseText);
+
+        // x.innerHTML = this.responseText;
+
+        for (state in jobj) {
+          for (k in jobj[state]) {
+            for (i in jobj[state][k]) {
+              // console.log(i + " : " + jobj[state][k][i]);
+
+              for (z in jobj[state][k][i]) {
+                //  console.log(z + " : " + jobj[state][k][i][z]);
+
+                for (p in jobj[state][k][i][z]) {
+                  if (p == "tested") {
+                    ref = jobj[state][k][i][z][p];
+                    if (ref.hasOwnProperty("date")) {
+                      console.log(p + " : " + ref.date);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      obj.open(
+        "GET",
+        "https://data.covid19india.org/v4/min/data.min.json",
+        true
+      );
+      obj.send();
+    }
+
+    disp();
+  </script>
+</html>
